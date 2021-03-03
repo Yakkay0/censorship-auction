@@ -1,3 +1,3 @@
 # censorship-auction
 
-This app let other users censorship my Headings using tokens
+This app let users create Headings and censorship other's Headings using Ether
