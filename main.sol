@@ -5,25 +5,40 @@ contract Censorship {
     
     struct Heading {
         string Title;
-        //uint CensorshipValue;
-        //uint DiscloseValue;
+        uint CensorshipValue;
+        uint DisclosureValue;
     }
 
     mapping (address => Heading ) public headings;
 
     constructor() {}
 
-    function setHeading(string memory title) public{
-        headings[msg.sender] = Heading(
-            {
-                Title: title
-                //CensorshipValue: censorshipValue,
-                //DiscloseValue: discloseValue
-            });
+    function setHeading(string memory title) payable public{
+        headings[msg.sender].DisclosureValue += msg.value;
+        if (headings[msg.sender].DisclosureValue >= headings[msg.sender].CensorshipValue) {
+            headings[msg.sender].Title = title;
+        }
     }
 
-    function getHeading()public view returns (string memory title) {
-        title = headings[msg.sender].Title;
+    function setCenshorship(address toCensor) payable public{
+        headings[toCensor].CensorshipValue += msg.value;
+        if (headings[toCensor].CensorshipValue > headings[toCensor].DisclosureValue ){
+            headings[toCensor].Title = "";
+        }
+    }
+
+    function getHeading(address headingOwner) public view returns (string memory title) {
+        title = headings[headingOwner].Title;
         return title;
+    }
+
+    function getDisclosureValue(address headingOwner) public view returns (uint value) {
+        value = headings[headingOwner].DisclosureValue;
+        return value;
+    }
+
+    function getCensorshipValue(address headingOwner) public view returns (uint value) {
+        value = headings[headingOwner].CensorshipValue;
+        return value;
     }
 }
