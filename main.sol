@@ -48,6 +48,15 @@ contract Censorship {
         msg.sender.transfer(value);
     }
 
+    function withdrawDisclosure(address fromHeading) public payable {
+        uint value = participants[msg.sender].DisclosureBalances[fromHeading];
+        require(value > 0);
+        participants[msg.sender].DisclosureBalances[fromHeading] = 0;
+        participants[msg.sender].Balance -= value;
+        headings[msg.sender].DisclosureValue -= value;
+        msg.sender.transfer(value);
+    }
+
     function getHeading(address headingOwner) public view returns (string memory title) {
         title = headings[headingOwner].Title;
         return title;
