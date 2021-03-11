@@ -1,2 +1,3 @@
 # censorship-auction
-Create the withdraw function for disclosure accounts
+
+next step: encode and salt Headings stored in blockchain
