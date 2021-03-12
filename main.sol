@@ -17,6 +17,7 @@ contract Censorship {
 
     mapping (address => Heading )    public headings;
     mapping (address => Participant) public participants;
+    mapping (address => bytes32) public headingsHashes;
    
 
     constructor() {}
@@ -55,6 +56,11 @@ contract Censorship {
         participants[msg.sender].Balance -= value;
         headings[msg.sender].DisclosureValue -= value;
         msg.sender.transfer(value);
+    }
+
+    function encryptHeading(bytes memory title) public{
+        bytes32 hashed  = keccak256(title);
+        headingsHashes[msg.sender] = hashed;
     }
 
     function getHeading(address headingOwner) public view returns (string memory title) {
